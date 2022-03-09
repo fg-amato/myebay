@@ -38,8 +38,8 @@ public class Annuncio {
 	private Utente utenteInserimento;
 	
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
-	@JoinTable(name = "annucio_categorie", joinColumns = @JoinColumn(name = "annuncio_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "ID"))
-	private Set<Categoria> ruoli = new HashSet<>();
+	@JoinTable(name = "annucio_categoria", joinColumns = @JoinColumn(name = "annuncio_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "ID"))
+	private Set<Categoria> categorie = new HashSet<>();
 
 	public Annuncio() {
 		super();
