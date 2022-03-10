@@ -1,6 +1,7 @@
 package it.prova.myebay.service.annuncio;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
@@ -144,6 +145,47 @@ public class AnnuncioServiceImpl implements AnnuncioService {
 
 			// eseguo quello che realmente devo fare
 			return annuncioDAO.findByExample(example);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
+	}
+
+	@Override
+	public Annuncio caricaSingoloElementoEager(Long id) throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+
+		try {
+			// uso l'injection per il dao
+			annuncioDAO.setEntityManager(entityManager);
+
+			// eseguo quello che realmente devo fare
+			Optional<Annuncio> result = annuncioDAO.findByIdFetchingUtente(id);
+			return result.isPresent() ? result.get() : null;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
+	}
+
+	@Override
+	public List<Annuncio> listAllAnnunciAperti() throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+
+		try {
+			// uso l'injection per il dao
+			annuncioDAO.setEntityManager(entityManager);
+
+			// eseguo quello che realmente devo fare
+			return annuncioDAO.findAllOpened();
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -15,9 +15,13 @@ public interface AnnuncioService {
 	public void inserisciNuovo(Annuncio annuncioInstance) throws Exception;
 
 	public void rimuovi(Annuncio annuncioInstance) throws Exception;
-	
+
 	public List<Annuncio> findByExample(Annuncio example) throws Exception;
 
 	// per injection
 	public void setAnnuncioDAO(AnnuncioDAO annuncioDAO);
+
+	public Annuncio caricaSingoloElementoEager(Long id) throws Exception;
+
+	public List<Annuncio> listAllAnnunciAperti() throws Exception;
 }

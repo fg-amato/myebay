@@ -65,7 +65,8 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 		Map<String, Object> paramaterMap = new HashMap<String, Object>();
 		List<String> whereClauses = new ArrayList<String>();
 
-		StringBuilder queryBuilder = new StringBuilder("select a from Annuncio a left join a.categorie c where a.aperto = true ");
+		StringBuilder queryBuilder = new StringBuilder(
+				"select a from Annuncio a left join a.categorie c where a.aperto = true ");
 
 		if (StringUtils.isNotEmpty(example.getTestoAnnuncio())) {
 			whereClauses.add(" a.testoAnnuncio  like :testoAnnuncio ");
@@ -80,7 +81,7 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 			whereClauses.add("c in :categorie ");
 			paramaterMap.put("categorie", example.getCategorie());
 		}
-		
+
 		queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");
 		queryBuilder.append(StringUtils.join(whereClauses, " and "));
 		TypedQuery<Annuncio> typedQuery = entityManager.createQuery(queryBuilder.toString(), Annuncio.class);
@@ -90,6 +91,18 @@ public class AnnuncioDAOImpl implements AnnuncioDAO {
 		}
 
 		return typedQuery.getResultList();
+	}
+
+	@Override
+	public Optional<Annuncio> findByIdFetchingUtente(Long id) throws Exception {
+		return entityManager.createQuery(
+				"from Annuncio a join fetch a.utenteInserimento left join fetch a.categorie where a.id = :idAnnuncio and a.aperto = true",
+				Annuncio.class).setParameter("idAnnuncio", id).getResultList().stream().findFirst();
+	}
+
+	@Override
+	public List<Annuncio> findAllOpened() throws Exception {
+		return entityManager.createQuery("from Annuncio a where a.aperto = true", Annuncio.class).getResultList();
 	}
 
 }
