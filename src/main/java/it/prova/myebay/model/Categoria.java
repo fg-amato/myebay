@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "categoria")
 public class Categoria {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -26,17 +26,17 @@ public class Categoria {
 	private String codice;
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "categorie")
 	private Set<Annuncio> annunci = new HashSet<>();
-	
+
 	public Categoria() {
 		super();
 	}
-	
+
 	public Categoria(String descrizione, String codice) {
 		super();
 		this.descrizione = descrizione;
 		this.codice = codice;
 	}
-	
+
 	public Categoria(Long id, String descrizione, String codice) {
 		super();
 		this.id = id;
@@ -50,6 +50,10 @@ public class Categoria {
 		this.descrizione = descrizione;
 		this.codice = codice;
 		this.annunci = annunci;
+	}
+
+	public Categoria(Long id) {
+		this.id = id;
 	}
 
 	public Long getId() {
@@ -83,5 +87,5 @@ public class Categoria {
 	public void setAnnunci(Set<Annuncio> annunci) {
 		this.annunci = annunci;
 	}
-	
+
 }

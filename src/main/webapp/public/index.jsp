@@ -68,7 +68,7 @@
 					<h3>Ricerca annunci</h3>
 				</div>
 				<div class='card-body'>
-					<form method="post" action="${pageContext.request.contextPath}/utente/ExecuteUpdateUtenteServlet"
+					<form method="post" action="${pageContext.request.contextPath}/ExecuteSearchAnnuncioServlet"
 						class="row g-3">
 
 

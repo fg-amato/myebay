@@ -120,6 +120,14 @@ public class Annuncio {
 		this.utenteInserimento = utenteInserimento;
 	}
 
+	public void setCategorie(Set<Categoria> categorie) {
+		this.categorie = categorie;
+	}
+
+	public Set<Categoria> getCategorie() {
+		return this.categorie;
+	}
+
 	public void addToCategorie(Categoria categoriaInstance) {
 		this.categorie.add(categoriaInstance);
 		categoriaInstance.getAnnunci().add(this);
