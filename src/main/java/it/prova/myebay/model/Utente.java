@@ -18,8 +18,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import it.prova.raccoltafilm.model.Film;
-
 @Entity
 @Table(name = "utente")
 public class Utente {
@@ -41,8 +39,6 @@ public class Utente {
 	@Column(name = "creditoresiduo")
 	private Integer creditoResiduo;
 
-
-
 	// se non uso questa annotation viene gestito come un intero
 	@Enumerated(EnumType.STRING)
 	private StatoUtente stato = StatoUtente.CREATO;
@@ -50,13 +46,13 @@ public class Utente {
 	@ManyToMany
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
 	private Set<Ruolo> ruoli = new HashSet<>(0);
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "utenteInserimento")
 	private Set<Annuncio> annunci = new HashSet<>(0);
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "utenteAcquirente")
 	private Set<Acquisto> acquisti = new HashSet<>(0);
-	
+
 	public Utente() {
 	}
 
@@ -163,7 +159,7 @@ public class Utente {
 	public void addToRuoli(Ruolo caricaSingoloElemento) {
 		ruoli.add(caricaSingoloElemento);
 	}
-	
+
 	public Integer getCreditoResiduo() {
 		return creditoResiduo;
 	}
@@ -187,6 +183,5 @@ public class Utente {
 	public void setAcquisti(Set<Acquisto> acquisti) {
 		this.acquisti = acquisti;
 	}
-	
 
 }

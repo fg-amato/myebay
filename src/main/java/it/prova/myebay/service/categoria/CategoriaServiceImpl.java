@@ -45,7 +45,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			categoriaDAO.setEntityManager(entityManager);
 
 			// eseguo quello che realmente devo fare
-			return categoriaDAO.get(id);
+			return categoriaDAO.findOne(id).get();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,7 +107,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			categoriaDAO.setEntityManager(entityManager);
 
 			// eseguo quello che realmente devo fare
-			return categoriaDAO.findByIdFetchingArticoli(id);
+			return categoriaDAO.findByIdFetchingAnnunci(id);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -162,8 +162,8 @@ public class CategoriaServiceImpl implements CategoriaService {
 			categoriaDAO.setEntityManager(entityManager);
 			annuncioDAO.setEntityManager(entityManager);
 
-			annuncioInstance = annuncioDAO.findOne(annuncioInstance.getId());
-			categoriaInstance = categoriaDAO.findOne(categoriaInstance.getId());
+			annuncioInstance = annuncioDAO.findOne(annuncioInstance.getId()).get();
+			categoriaInstance = categoriaDAO.findOne(categoriaInstance.getId()).get();
 
 			annuncioInstance.removeFromCategorie(categoriaInstance);
 			// l'update non viene richiamato a mano in quanto

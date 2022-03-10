@@ -1,11 +1,9 @@
-package it.prova.raccoltaannuncio.service;
+package it.prova.myebay.service;
 
-import it.prova.gestioneordini.dao.MyDAOFactory;
 import it.prova.myebay.dao.acquisto.AcquistoDAO;
 import it.prova.myebay.dao.acquisto.AcquistoDAOImpl;
 import it.prova.myebay.dao.annuncio.AnnuncioDAO;
 import it.prova.myebay.dao.annuncio.AnnuncioDAOImpl;
-import it.prova.myebay.dao.annuncio.AnnuncioServiceImpl;
 import it.prova.myebay.dao.categoria.CategoriaDAO;
 import it.prova.myebay.dao.categoria.CategoriaDAOImpl;
 import it.prova.myebay.dao.ruolo.RuoloDAO;
@@ -15,6 +13,7 @@ import it.prova.myebay.dao.utente.UtenteDAOImpl;
 import it.prova.myebay.service.acquisto.AcquistoService;
 import it.prova.myebay.service.acquisto.AcquistoServiceImpl;
 import it.prova.myebay.service.annuncio.AnnuncioService;
+import it.prova.myebay.service.annuncio.AnnuncioServiceImpl;
 import it.prova.myebay.service.categoria.CategoriaService;
 import it.prova.myebay.service.categoria.CategoriaServiceImpl;
 import it.prova.myebay.service.ruolo.RuoloService;
@@ -88,10 +87,10 @@ public class MyServiceFactory {
 	public static CategoriaService getCategoriaServiceInstance() {
 		if (CATEGORIA_SERVICE_INSTANCE == null)
 			CATEGORIA_SERVICE_INSTANCE = new CategoriaServiceImpl();
-		
+
 		if (ANNUNCIO_DAO_INSTANCE == null)
 			ANNUNCIO_DAO_INSTANCE = new AnnuncioDAOImpl();
-		
+
 		if (CATEGORIA_DAO_INSTANCE == null)
 			CATEGORIA_DAO_INSTANCE = new CategoriaDAOImpl();
 

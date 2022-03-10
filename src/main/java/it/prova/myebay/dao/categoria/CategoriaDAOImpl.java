@@ -23,8 +23,9 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	}
 
 	@Override
-	public Categoria get(Long id) throws Exception {
-		return entityManager.find(Categoria.class, id);
+	public Optional<Categoria> findOne(Long id) throws Exception {
+		Categoria result = entityManager.find(Categoria.class, id);
+		return result != null ? Optional.of(result) : Optional.empty();
 	}
 
 	@Override
@@ -59,6 +60,5 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		query.setParameter("idCategoria", id);
 		return query.getResultList().stream().findFirst().orElse(null);
 	}
-
 
 }

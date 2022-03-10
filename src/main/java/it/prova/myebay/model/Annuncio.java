@@ -36,7 +36,7 @@ public class Annuncio {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "utente_id", nullable = false)
 	private Utente utenteInserimento;
-	
+
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinTable(name = "annucio_categoria", joinColumns = @JoinColumn(name = "annuncio_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "ID"))
 	private Set<Categoria> categorie = new HashSet<>();
@@ -121,12 +121,12 @@ public class Annuncio {
 	}
 
 	public void addToCategorie(Categoria categoriaInstance) {
-		this.ruoli.add(categoriaInstance);
+		this.categorie.add(categoriaInstance);
 		categoriaInstance.getAnnunci().add(this);
 	}
 
 	public void removeFromCategorie(Categoria categoriaInstance) {
-		this.ruoli.remove(categoriaInstance);
+		this.categorie.remove(categoriaInstance);
 		categoriaInstance.getAnnunci().remove(this);
 	}
 }

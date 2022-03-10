@@ -197,7 +197,7 @@ public class UtenteServiceImpl implements UtenteService {
 	}
 
 	@Override
-	public Object findByExample(Utente example) throws Exception {
+	public List<Utente> findByExample(Utente example) throws Exception {
 		// questo è come una connection
 		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
 

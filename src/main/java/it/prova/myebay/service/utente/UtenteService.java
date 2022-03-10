@@ -27,7 +27,7 @@ public interface UtenteService {
 	// per injection
 	public void setUtenteDAO(UtenteDAO utenteDAO);
 
-	public Utente findByExample(Utente example) throws Exception;
+	public List<Utente> findByExample(Utente example) throws Exception;
 
 	Utente caricaSingoloElementoConRuoli(Long id) throws Exception;
 
