@@ -1,10 +1,15 @@
 package it.prova.myebay.utility;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.model.Categoria;
+import it.prova.myebay.model.Utente;
 
 public class UtilityForm {
 
@@ -20,7 +25,7 @@ public class UtilityForm {
 			result.setPrezzo(prezzoToInt > 0 ? prezzoToInt : null);
 		}
 
-		if (categorieId !=null) {
+		if (categorieId != null) {
 			for (String categorieIdItem : categorieId) {
 				if (NumberUtils.isCreatable(categorieIdItem)) {
 					result.getCategorie().add(new Categoria(Long.parseLong(categorieIdItem)));
@@ -29,6 +34,25 @@ public class UtilityForm {
 		}
 
 		return result;
+	}
+
+	public static Utente createUtenteFromParams(String nome, String cognome, String username, String password) {
+		Utente result = new Utente();
+		result.setUsername(StringUtils.isBlank(username) ? null : username);
+		result.setPassword(StringUtils.isBlank(password) ? null : password);
+		result.setNome(StringUtils.isBlank(nome) ? null : nome);
+		result.setCognome(StringUtils.isBlank(cognome) ? null : cognome);
+
+		return result;
+	}
+
+	public static boolean validateUtenteBean(Utente utenteToBeValidated) {
+		if (StringUtils.isBlank(utenteToBeValidated.getNome()) || StringUtils.isBlank(utenteToBeValidated.getCognome())
+				|| StringUtils.isBlank(utenteToBeValidated.getUsername())
+				|| StringUtils.isBlank(utenteToBeValidated.getPassword())) {
+			return false;
+		}
+		return true;
 	}
 
 //	public static boolean validateRegistaBean(Regista registaToBeValidated) {
@@ -76,16 +100,16 @@ public class UtilityForm {
 //		return true;
 //	}
 //
-//	public static Date parseDateArrivoFromString(String dataDiNascitaStringParam) {
-//		if (StringUtils.isBlank(dataDiNascitaStringParam))
-//			return null;
-//
-//		try {
-//			return new SimpleDateFormat("yyyy-MM-dd").parse(dataDiNascitaStringParam);
-//		} catch (ParseException e) {
-//			return null;
-//		}
-//	}
+	public static Date parseDateFromString(String dataStringParam) {
+		if (StringUtils.isBlank(dataStringParam))
+			return null;
+
+		try {
+			return new SimpleDateFormat("yyyy-MM-dd").parse(dataStringParam);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
 //
 //	public static Map<Ruolo, Boolean> buildCheckedRolesFromRolesAlreadyInUtente(List<Ruolo> listaTotaleRuoli,
 //			Set<Ruolo> listaRuoliPossedutiDaUtente) {
@@ -105,27 +129,6 @@ public class UtilityForm {
 //		return result;
 //	}
 //
-//	public static Utente createUtenteFromParams(String nomeInputParam, String cognomeInputParam,
-//			String usernameInputParam, String dataCreazioneStringParam, String passwordInputParam,
-//			String[] ruoliInputParam) {
-//		Set<Ruolo> ruoliUtente = new HashSet<Ruolo>();
-//		Utente result = new Utente();
-//		result.setUsername(StringUtils.isBlank(usernameInputParam) ? null : usernameInputParam);
-//		result.setPassword(StringUtils.isBlank(passwordInputParam) ? null : passwordInputParam);
-//		result.setNome(StringUtils.isBlank(nomeInputParam) ? null : nomeInputParam);
-//		result.setCognome(StringUtils.isBlank(cognomeInputParam) ? null : cognomeInputParam);
-//
-//		if (ruoliInputParam != null) {
-//			for (String ruolo : ruoliInputParam) {
-//				if (NumberUtils.isCreatable(ruolo)) {
-//					Ruolo ruoloDaInserire = new Ruolo();
-//					ruoloDaInserire.setId(Long.parseLong(ruolo));
-//					ruoliUtente.add(ruoloDaInserire);
-//				}
-//			}
-//
-//			result.setRuoli(ruoliUtente);
-//		}
 //
 //		// result.setDateCreated(parseDateArrivoFromString(dataCreazioneStringParam));
 //		// result.setRuoli(ruoliInputParam != null && !ruoliInputParam.isEmpty() ?

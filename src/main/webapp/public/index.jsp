@@ -48,6 +48,11 @@
 				  ${errorMessage}
 				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
 				</div>
+				
+				<div class="alert alert-success alert-dismissible fade show ${successMessage==null?'d-none':'' }" role="alert">
+				  ${successMessage}
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+				</div>
 			    
 			     <div class="p-5 mb-4 bg-light rounded-3">
 				      <div class="container-fluid py-5">
@@ -58,7 +63,7 @@
 				        <c:if test = "${userInfo == null }">
 				        	<h1 class="display-5 fw-bold">Benvenuto in My Ebay!</h1>
 				        	<p class="col-md-8 fs-4">Unisciti a noi!</p>
-				        	<p> Non sei ancora registrato? <a href="PrepareSearchRegistaServlet">Registrati</a> </p>
+				        	<p> Non sei ancora registrato? <a href="${pageContext.request.contextPath}/PrepareRegistrazioneUtenteServlet">Registrati</a> </p>
 				        </c:if>
 				      </div>
 			    </div>

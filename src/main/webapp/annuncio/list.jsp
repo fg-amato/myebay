@@ -54,7 +54,6 @@
 											<td>${annunciItem.prezzo }</td>
 											<td>
 												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath }/utente/ExecuteVisualizzaUtenteServlet?idUtente=${utenteItem.id }">Visualizza</a>
-												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareEditUtenteServlet?idUtente=${utenteItem.id }">Compra</a>
 											</td>
 										</tr>
 									</c:forEach>
