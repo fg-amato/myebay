@@ -1,4 +1,4 @@
-package it.prova.myebay.web.servlet.utente;
+package it.prova.myebay.web.servlet.admin;
 
 import java.io.IOException;
 
@@ -48,7 +48,7 @@ public class ExecuteVisualizzaUtenteServlet extends HttpServlet {
 		}
 
 		// andiamo ai risultati
-		request.getRequestDispatcher("../utente/show.jsp").forward(request, response);
+		request.getRequestDispatcher("show.jsp").forward(request, response);
 	}
 
 }

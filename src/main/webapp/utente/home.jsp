@@ -6,7 +6,7 @@
 	 	<!-- Common imports in pages -->
 	 	<jsp:include page="../header.jsp" />
 		<!-- Custom styles per le features di bootstrap 'Columns with icons' -->
-	   <link href="../assets/css/features.css" rel="stylesheet">
+	   <link href="${pageContext.request.contextPath}/assets/css/features.css" rel="stylesheet">
 	   
 	   <title>My Ebay</title>
 	 </head>
@@ -82,7 +82,7 @@
 			        </div>
 			        <h2>Gestione Annunci</h2>
 			        <p> Visualizza e gestisci tutti i tuoi annunci ancora aperti.</p>
-			        <a href="PrepareInsertRegistaServlet" class="icon-link">
+			        <a href="${pageContext.request.contextPath }/utente/PrepareSearchAnnuncioServlet" class="icon-link">
 			          Vai alla funzionalità
 			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
 			        </a>

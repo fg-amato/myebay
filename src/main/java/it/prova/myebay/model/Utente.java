@@ -84,6 +84,10 @@ public class Utente {
 		this.dateCreated = dateCreated;
 	}
 
+	public Utente(long id) {
+		this.id = id;
+	}
+
 	public Long getId() {
 		return id;
 	}

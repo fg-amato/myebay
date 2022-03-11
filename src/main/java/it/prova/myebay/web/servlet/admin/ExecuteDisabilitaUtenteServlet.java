@@ -1,4 +1,4 @@
-package it.prova.myebay.web.servlet.utente;
+package it.prova.myebay.web.servlet.admin;
 
 import java.io.IOException;
 

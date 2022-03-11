@@ -1,7 +1,6 @@
 package it.prova.myebay.web.servlet.utente;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,12 +11,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import it.prova.myebay.service.MyServiceFactory;
 
-
-@WebServlet("/admin/ExecuteListUtenteServlet")
-public class ExecuteListUtenteServlet extends HttpServlet {
+/**
+ * Servlet implementation class ExecuteListAnnuncioUtenteServlet
+ */
+@WebServlet("/utente/ExecuteListAnnuncioUtenteServlet")
+public class ExecuteListAnnuncioUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			// se nell'url della request è presente SUCCESS significa che devo mandare un
@@ -30,7 +30,7 @@ public class ExecuteListUtenteServlet extends HttpServlet {
 			if (StringUtils.isNotBlank(operationResult) && operationResult.equalsIgnoreCase("NOT_FOUND"))
 				request.setAttribute("errorMessage", "Elemento non trovato.");
 
-			request.setAttribute("utenti_list_attribute",
+			request.setAttribute("annunci_list_attribute",
 					MyServiceFactory.getUtenteServiceInstance().listAll());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -40,8 +40,7 @@ public class ExecuteListUtenteServlet extends HttpServlet {
 		}
 
 		// andiamo ai risultati
-		request.getRequestDispatcher("../utente/list.jsp").forward(request, response);
+		request.getRequestDispatcher("list.jsp").forward(request, response);
 	}
-
 
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 
 import it.prova.myebay.dao.annuncio.AnnuncioDAO;
+import it.prova.myebay.exceptions.InvalidUserException;
 import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.web.listener.LocalEntityManagerFactoryListener;
 
@@ -186,6 +187,30 @@ public class AnnuncioServiceImpl implements AnnuncioService {
 
 			// eseguo quello che realmente devo fare
 			return annuncioDAO.findAllOpened();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
+	}
+	
+	@Override
+	public List<Annuncio> findByExampleConUtente(Annuncio example) throws Exception {
+		
+		if(example.getUtenteInserimento() == null || example.getUtenteInserimento().getId() == null) {
+			throw new InvalidUserException("L'utente inserito non è stato trovato");
+		}
+		// questo è come una connection
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+		
+		try {
+			// uso l'injection per il dao
+			annuncioDAO.setEntityManager(entityManager);
+
+			// eseguo quello che realmente devo fare
+			return annuncioDAO.findByExampleConUtente(example);
 
 		} catch (Exception e) {
 			e.printStackTrace();

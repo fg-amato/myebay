@@ -1,4 +1,4 @@
-package it.prova.myebay.web.servlet.utente;
+package it.prova.myebay.web.servlet.admin;
 
 import java.io.IOException;
 
@@ -44,7 +44,7 @@ public class PrepareEditUtenteServlet extends HttpServlet {
 		}
 
 		// andiamo ai risultati
-		request.getRequestDispatcher("../utente/edit.jsp").forward(request, response);
+		request.getRequestDispatcher("edit.jsp").forward(request, response);
 	}
 
 }

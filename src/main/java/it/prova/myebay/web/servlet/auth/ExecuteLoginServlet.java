@@ -27,8 +27,6 @@ public class ExecuteLoginServlet extends HttpServlet {
 		String loginInput = request.getParameter("inputUsername");
 		String passwordInput = request.getParameter("inputPassword");
 
-		System.out.println(loginInput);
-		System.out.println(passwordInput);
 
 		if (StringUtils.isEmpty(loginInput) || StringUtils.isEmpty(passwordInput)) {
 			request.setAttribute("errorMessage", "E' necessario riempire tutti i campi.");

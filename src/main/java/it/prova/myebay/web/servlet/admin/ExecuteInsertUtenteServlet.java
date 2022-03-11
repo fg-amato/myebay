@@ -1,4 +1,4 @@
-package it.prova.myebay.web.servlet.utente;
+package it.prova.myebay.web.servlet.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -32,7 +32,7 @@ public class ExecuteInsertUtenteServlet extends HttpServlet {
 		if (!UtilityForm.validateUtenteBean(utenteInstance)) {
 			request.setAttribute("insert_utente_attr", utenteInstance);
 			request.setAttribute("errorMessage", "Attenzione sono presenti errori di validazione");
-			request.getRequestDispatcher("../utente/insert.jsp").forward(request, response);
+			request.getRequestDispatcher("insert.jsp").forward(request, response);
 			return;
 		}
 

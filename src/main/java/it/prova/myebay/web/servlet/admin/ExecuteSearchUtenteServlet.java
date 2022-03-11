@@ -1,4 +1,4 @@
-package it.prova.myebay.web.servlet.utente;
+package it.prova.myebay.web.servlet.admin;
 
 import java.io.IOException;
 
@@ -36,7 +36,7 @@ public class ExecuteSearchUtenteServlet extends HttpServlet {
 			request.getRequestDispatcher("../utente/home.jsp").forward(request, response);
 			return;
 		}
-		request.getRequestDispatcher("../utente/list.jsp").forward(request, response);
+		request.getRequestDispatcher("list.jsp").forward(request, response);
 	}
 
 }
