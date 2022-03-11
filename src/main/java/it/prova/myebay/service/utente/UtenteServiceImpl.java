@@ -102,7 +102,7 @@ public class UtenteServiceImpl implements UtenteService {
 			utenteInstance.setStato(StatoUtente.CREATO);
 			// eseguo quello che realmente devo fare
 			utenteDAO.insert(utenteInstance);
-			
+
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
@@ -230,6 +230,37 @@ public class UtenteServiceImpl implements UtenteService {
 			return result.isPresent() ? result.get() : null;
 
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
+	}
+
+	@Override
+	public void disabilita(long id) throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+
+		try {
+			
+			entityManager.getTransaction().begin();
+			// uso l'injection per il dao
+			utenteDAO.setEntityManager(entityManager);
+
+			// eseguo quello che realmente devo fare
+			Optional<Utente> result = utenteDAO.findOne(id);
+			Utente daDisabilitare =  result.isPresent() ? result.get() : null;
+
+			if(daDisabilitare != null) {
+				daDisabilitare.setStato(StatoUtente.DISABILITATO);
+				utenteDAO.update(daDisabilitare);
+			}
+			
+			entityManager.getTransaction().commit();
+			
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
 		} finally {

@@ -31,4 +31,6 @@ public interface UtenteService {
 
 	Utente caricaSingoloElementoConRuoli(Long id) throws Exception;
 
+	public void disabilita(long id) throws Exception;
+
 }
