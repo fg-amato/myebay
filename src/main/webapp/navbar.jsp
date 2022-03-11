@@ -29,15 +29,24 @@
              		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/PrepareInsertRegistaServlet">Inserisci Regista</a></li>
               		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/PrepareSearchFilmServlet">Ricerca Film</a></li>
               		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/PrepareInsertFilmServlet">Inserisci Film</a></li>
-              	<c:if test="${userInfo.isAdmin()}">
-              		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/utente/PrepareSearchUtenteServlet">Ricerca utenti</a></li>
-              		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/utente/PrepareInsertUtenteServlet">Inserisci utente</a></li>
-              		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/utente/ExecuteListUtenteServlet">Lista utenti</a></li>
-              	</c:if>
             	</ul>
              
           	</li> 
-          </c:if>  
+          	
+          </c:if>
+          
+          <c:if test = "${userInfo != null && userInfo.isAdmin() }">
+          	<li class="nav-item dropdown">
+            	<a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Funzionalità admin</a>
+            	<ul class="dropdown-menu" aria-labelledby="dropdown07">
+              		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/PrepareSearchUtenteServlet">Ricerca utenti</a></li>
+              		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/PrepareInsertUtenteServlet">Inserisci utente</a></li>
+              		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/ExecuteListUtenteServlet">Lista utenti</a></li>
+            	</ul>
+             
+          	</li> 
+          	
+          </c:if>   
         </ul>
       </div>
       <div class="col-md-3 text-end">

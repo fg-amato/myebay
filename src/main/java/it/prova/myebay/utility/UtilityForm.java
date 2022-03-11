@@ -9,6 +9,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.model.Categoria;
+import it.prova.myebay.model.Ruolo;
 import it.prova.myebay.model.Utente;
 
 public class UtilityForm {
@@ -36,6 +37,26 @@ public class UtilityForm {
 		return result;
 	}
 
+	public static Utente createUtenteFromParamsForSearch(String usernameInputParam, String nomeInputParam, String cognomeInputParam,String dataCreazioneParam
+			 ,String[] ruoliInputParam) {
+
+		Utente result = new Utente();
+		result.setNome(StringUtils.isBlank(nomeInputParam) ? null : nomeInputParam);
+		result.setCognome(StringUtils.isBlank(cognomeInputParam) ? null : cognomeInputParam);
+		result.setUsername(StringUtils.isBlank(usernameInputParam) ? null : usernameInputParam);
+		result.setDateCreated(parseDateFromString(dataCreazioneParam));
+		
+		if (ruoliInputParam != null) {
+			for (String ruoloItem : ruoliInputParam) {
+				if (NumberUtils.isCreatable(ruoloItem)) {
+					result.getRuoli().add(new Ruolo(Long.parseLong(ruoloItem)));
+				}
+			}
+		}
+
+		return result;
+	}
+
 	public static Utente createUtenteFromParams(String nome, String cognome, String username, String password) {
 		Utente result = new Utente();
 		result.setUsername(StringUtils.isBlank(username) ? null : username);
@@ -55,6 +76,17 @@ public class UtilityForm {
 		return true;
 	}
 
+	//
+	public static Date parseDateFromString(String dataStringParam) {
+		if (StringUtils.isBlank(dataStringParam))
+			return null;
+
+		try {
+			return new SimpleDateFormat("yyyy-MM-dd").parse(dataStringParam);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
 //	public static boolean validateRegistaBean(Regista registaToBeValidated) {
 //		// prima controlliamo che non siano vuoti i parametri
 //		if (StringUtils.isBlank(registaToBeValidated.getNome())
@@ -99,17 +131,7 @@ public class UtilityForm {
 //		}
 //		return true;
 //	}
-//
-	public static Date parseDateFromString(String dataStringParam) {
-		if (StringUtils.isBlank(dataStringParam))
-			return null;
 
-		try {
-			return new SimpleDateFormat("yyyy-MM-dd").parse(dataStringParam);
-		} catch (ParseException e) {
-			return null;
-		}
-	}
 //
 //	public static Map<Ruolo, Boolean> buildCheckedRolesFromRolesAlreadyInUtente(List<Ruolo> listaTotaleRuoli,
 //			Set<Ruolo> listaRuoliPossedutiDaUtente) {
