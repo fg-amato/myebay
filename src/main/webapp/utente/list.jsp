@@ -1,3 +1,4 @@
+<%@page import="it.prova.myebay.model.StatoUtente"%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -62,7 +63,9 @@
 											<td>
 												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath }/admin/ExecuteVisualizzaUtenteServlet?idUtente=${utenteItem.id }">Visualizza</a>
 												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath }/admin/PrepareEditUtenteServlet?idUtente=${utenteItem.id }">Modifica</a>
-												<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath }/admin/PrepareDisabilitaUtenteServlet?idUtente=${utenteItem.id }">Disabilita</a>
+												<c:if test = "${ utenteItem.stato != 'DISABILITATO' }">
+													<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath }/admin/PrepareDisabilitaUtenteServlet?idUtente=${utenteItem.id }">Disabilita</a>
+												</c:if>
 											</td>
 										</tr>
 									</c:forEach>

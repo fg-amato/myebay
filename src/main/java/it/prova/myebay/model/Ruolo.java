@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ruolo")
-public class Ruolo {
+public class Ruolo implements Comparable<Ruolo>{
 
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
 	public static final String ROLE_CLASSIC_USER = "ROLE_CLASSIC_USER";
@@ -57,6 +57,11 @@ public class Ruolo {
 
 	public void setCodice(String codice) {
 		this.codice = codice;
+	}
+	
+	@Override
+	public int compareTo(Ruolo o) {
+		return Long.compare(this.id, o.getId());
 	}
 
 }

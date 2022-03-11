@@ -33,4 +33,6 @@ public interface UtenteService {
 
 	public void disabilita(long id) throws Exception;
 
+	public void aggiungiRuoliAUtente(Utente utenteInstance, String[] ruoliInputParam) throws Exception;
+
 }

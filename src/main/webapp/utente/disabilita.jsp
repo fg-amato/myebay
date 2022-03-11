@@ -67,7 +67,10 @@
 							   <dd class="col-sm-9"><fmt:formatDate type = "date" value = "${delete_utente_attr.dateCreated}" /></dd>
 					    	</dl>
 					    	
-					    	
+					    	<dl class="row">
+							  <dt class="col-sm-3 text-right">Stato utente:</dt>
+							  <dd class="col-sm-9">${show_utente_attr.stato}</dd>
+					    	</dl>
 					    	<!-- info Ruoli -->
 					    	<p>
 							  <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">

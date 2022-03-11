@@ -1,4 +1,5 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="it" class="h-100" >
 	 <head>
@@ -71,15 +72,35 @@
 							  </div>
 							<!-- end info Utente -->
 							</div>
+							<br>
+							<!--info Categorie -->
+							 <p>
+                   				<a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExampleCategoria" role="button" aria-expanded="false" aria-controls="collapseExample">
+									Categorie
+                   				</a>
+                  			</p>
+                 			<div class="collapse" id="collapseExampleCategoria">
+                   				<div class="card card-body">
+                     				<dl class= "row">
+                     					<dt class = "col-sm-3 text-right"> Categorie:</dt>
+                     					<c:forEach items="${show_annuncio_attr.categorie}" var="categoria">
+                       						<dd class="row-sm-9">${ categoria.codice }-${categoria.descrizione }</dd>
+                       						<br>
+                     					</c:forEach>
+                   					</dl>
+                     
+                   				</div>
+                 			<!-- end info Categorie -->
+                 			</div>
 					    	
 					    <!-- end card body -->
 					    </div>
 					    
 					    <div class='card-footer'>
-					   	 	<a href="${pageContext.request.contextPath }/TRANSAZIONE" class='btn btn-outline-primary' style='width:80px'>
+					   	 	<a href="${pageContext.request.contextPath }/TRANSAZIONE" class='btn btn-outline-primary' style='width:100px'>
 					            <i class='fa fa-chevron-left'></i> Compra
 					        </a>
-					        <a href="${pageContext.request.contextPath }/ExecuteListAnnuncioServlet" class='btn btn-outline-secondary' style='width:80px'>
+					        <a href="${pageContext.request.contextPath }/ExecuteListAnnuncioServlet" class='btn btn-outline-secondary' style='width:100px'>
 					            <i class='fa fa-chevron-left'></i> Indietro
 					        </a>
 					    </div>

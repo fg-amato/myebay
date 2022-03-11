@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import it.prova.myebay.dao.utente.UtenteDAO;
 import it.prova.myebay.model.Ruolo;
 import it.prova.myebay.model.StatoUtente;
@@ -243,22 +245,22 @@ public class UtenteServiceImpl implements UtenteService {
 		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
 
 		try {
-			
+
 			entityManager.getTransaction().begin();
 			// uso l'injection per il dao
 			utenteDAO.setEntityManager(entityManager);
 
 			// eseguo quello che realmente devo fare
 			Optional<Utente> result = utenteDAO.findOne(id);
-			Utente daDisabilitare =  result.isPresent() ? result.get() : null;
+			Utente daDisabilitare = result.isPresent() ? result.get() : null;
 
-			if(daDisabilitare != null) {
+			if (daDisabilitare != null) {
 				daDisabilitare.setStato(StatoUtente.DISABILITATO);
 				utenteDAO.update(daDisabilitare);
 			}
-			
+
 			entityManager.getTransaction().commit();
-			
+
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			e.printStackTrace();
@@ -266,6 +268,49 @@ public class UtenteServiceImpl implements UtenteService {
 		} finally {
 			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
 		}
+	}
+
+	@Override
+	public void aggiungiRuoliAUtente(Utente utenteInstance, String[] ruoliInputParam) throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+
+		try {
+			// questo è come il MyConnection.getConnection()
+			entityManager.getTransaction().begin();
+
+			// uso l'injection per il dao
+			utenteDAO.setEntityManager(entityManager);
+			
+			Utente daAggiornare = utenteDAO.findOneConRuoli(utenteInstance.getId()).get();
+			
+			daAggiornare.setNome(utenteInstance.getNome());
+			daAggiornare.setCognome(utenteInstance.getCognome());
+			daAggiornare.setUsername(utenteInstance.getUsername());
+			daAggiornare.setStato(utenteInstance.getStato());
+			
+			daAggiornare.getRuoli().clear();
+			
+			entityManager.merge(daAggiornare);
+			
+			if(ruoliInputParam != null) {
+				for(String item : ruoliInputParam) {
+					if(NumberUtils.isCreatable(item)) {
+						daAggiornare.addToRuoli(new Ruolo(Long.parseLong(item)));
+					}
+				}
+			}
+		
+
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
+
 	}
 
 }
