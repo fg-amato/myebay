@@ -5,14 +5,24 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import it.prova.myebay.dao.annuncio.AnnuncioDAO;
+import it.prova.myebay.dao.categoria.CategoriaDAO;
 import it.prova.myebay.exceptions.InvalidUserException;
 import it.prova.myebay.model.Annuncio;
+import it.prova.myebay.model.Categoria;
 import it.prova.myebay.web.listener.LocalEntityManagerFactoryListener;
 
 public class AnnuncioServiceImpl implements AnnuncioService {
 
 	private AnnuncioDAO annuncioDAO;
+	private CategoriaDAO categoriaDAO;
+
+	@Override
+	public void setCategoriaDAO(CategoriaDAO categoriaDAO) {
+		this.categoriaDAO = categoriaDAO;
+	}
 
 	@Override
 	public void setAnnuncioDAO(AnnuncioDAO annuncioDAO) {
@@ -195,16 +205,16 @@ public class AnnuncioServiceImpl implements AnnuncioService {
 			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
 		}
 	}
-	
+
 	@Override
 	public List<Annuncio> findByExampleConUtente(Annuncio example) throws Exception {
-		
-		if(example.getUtenteInserimento() == null || example.getUtenteInserimento().getId() == null) {
+
+		if (example.getUtenteInserimento() == null || example.getUtenteInserimento().getId() == null) {
 			throw new InvalidUserException("L'utente inserito non è stato trovato");
 		}
 		// questo è come una connection
 		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
-		
+
 		try {
 			// uso l'injection per il dao
 			annuncioDAO.setEntityManager(entityManager);
@@ -213,6 +223,53 @@ public class AnnuncioServiceImpl implements AnnuncioService {
 			return annuncioDAO.findByExampleConUtente(example);
 
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
+	}
+
+	@Override
+	public void aggiornaCategorieAnnuncio(Annuncio annuncioInstance, String[] categoriaInputInputParam)
+			throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+
+		try {
+			// questo è come il MyConnection.getConnection()
+			entityManager.getTransaction().begin();
+
+			annuncioDAO.setEntityManager(entityManager);
+			categoriaDAO.setEntityManager(entityManager);
+
+			Annuncio annuncioDaAggiornare = annuncioDAO.findByIdFetchingUtente(annuncioInstance.getId()).get();
+
+			annuncioDaAggiornare.setPrezzo(annuncioInstance.getPrezzo());
+			annuncioDaAggiornare.setTestoAnnuncio(annuncioDaAggiornare.getTestoAnnuncio());
+
+			entityManager.merge(annuncioDaAggiornare);
+
+			if (annuncioDaAggiornare.getCategorie() != null) {
+				for (Categoria item : annuncioDaAggiornare.getCategorie()) {
+					item = categoriaDAO.findByIdFetchingAnnunci(item.getId());
+					entityManager.merge(item);
+					annuncioDaAggiornare.removeFromCategorie(item);
+				}
+			}
+
+			if (categoriaInputInputParam != null) {
+				for (String item : categoriaInputInputParam) {
+					if (NumberUtils.isCreatable(item)) {
+						Categoria temp = categoriaDAO.findByIdFetchingAnnunci(Long.parseLong(item));
+						entityManager.merge(temp);
+						annuncioDaAggiornare.addToCategorie(temp);
+					}
+				}
+			}
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
 			e.printStackTrace();
 			throw e;
 		} finally {

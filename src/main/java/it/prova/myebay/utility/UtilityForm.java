@@ -84,14 +84,15 @@ public class UtilityForm {
 	}
 
 	public static boolean validateUtenteBeanForEdit(Utente utenteToBeValidated) {
-		  // prima controlliamo che non siano vuoti i parametri
-		  if (StringUtils.isBlank(utenteToBeValidated.getNome()) || StringUtils.isBlank(utenteToBeValidated.getCognome())
-		    || StringUtils.isBlank(utenteToBeValidated.getUsername()) || StringUtils.isBlank(
-		      utenteToBeValidated.getStato() != null ? utenteToBeValidated.getStato().toString() : "")) {
-		   return false;
-		  }
-		  return true;
-		 }
+		// prima controlliamo che non siano vuoti i parametri
+		if (StringUtils.isBlank(utenteToBeValidated.getNome()) || StringUtils.isBlank(utenteToBeValidated.getCognome())
+				|| StringUtils.isBlank(utenteToBeValidated.getUsername()) || StringUtils.isBlank(
+						utenteToBeValidated.getStato() != null ? utenteToBeValidated.getStato().toString() : "")) {
+			return false;
+		}
+		return true;
+	}
+
 	public static boolean validateUtenteBean(Utente utenteToBeValidated) {
 		if (StringUtils.isBlank(utenteToBeValidated.getNome()) || StringUtils.isBlank(utenteToBeValidated.getCognome())
 				|| StringUtils.isBlank(utenteToBeValidated.getUsername())
@@ -145,6 +146,57 @@ public class UtilityForm {
 		}
 
 		return result;
+	}
+
+	public static Map<Categoria, Boolean> buildCheckedCategoriesFromCategoriesAlreadyInUtente(
+			List<Categoria> listaTotaleCategorie, Set<Categoria> listaCategoriePossedutiDaUtente) {
+		Map<Categoria, Boolean> result = new TreeMap<>();
+
+		// converto array di ruoli in List di Long
+		List<Long> categorieConvertitiInIds = new ArrayList<>();
+		for (Categoria categoriaDiUtenteItem : listaCategoriePossedutiDaUtente != null ? listaCategoriePossedutiDaUtente
+				: new ArrayList<Categoria>()) {
+			categorieConvertitiInIds.add(categoriaDiUtenteItem.getId());
+		}
+		for (Categoria categoriaItem : listaTotaleCategorie) {
+			result.put(categoriaItem, categorieConvertitiInIds.contains(categoriaItem.getId()));
+		}
+
+		return result;
+	}
+
+	public static Map<Categoria, Boolean> buildCheckedCategoriesForPages(List<Categoria> listaTotaleCategorie,
+			String[] categorieFromParams) {
+		Map<Categoria, Boolean> result = new TreeMap<>();
+
+		// converto array di ruoli in List di Long
+		List<Long> categorieConvertitiInIds = new ArrayList<>();
+		for (String stringItem : categorieFromParams != null ? categorieFromParams : new String[] {}) {
+			categorieConvertitiInIds.add(Long.valueOf(stringItem));
+		}
+
+		for (Categoria categoriaItem : listaTotaleCategorie) {
+			result.put(categoriaItem, categorieConvertitiInIds.contains(categoriaItem.getId()));
+		}
+
+		return result;
+	}
+
+	public static Annuncio createAnnuncioFromParamsForEdit(String testoAnnuncioInputParam, String prezzoInputParam) {
+		Annuncio result = new Annuncio();
+		result.setTestoAnnuncio(StringUtils.isNotBlank(testoAnnuncioInputParam) ? testoAnnuncioInputParam : null);
+
+		result.setPrezzo(NumberUtils.isCreatable(prezzoInputParam) ? Integer.parseInt(prezzoInputParam) : null);
+
+		return result;
+	}
+
+	public static boolean validateAnnuncioBean(Annuncio annuncioToBeValidated) {
+		if (StringUtils.isBlank(annuncioToBeValidated.getTestoAnnuncio()) || annuncioToBeValidated.getPrezzo() == null
+				|| annuncioToBeValidated.getPrezzo() <= 0) {
+			return false;
+		}
+		return true;
 	}
 //	public static boolean validateRegistaBean(Regista registaToBeValidated) {
 //		// prima controlliamo che non siano vuoti i parametri
