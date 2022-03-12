@@ -138,4 +138,10 @@ public class AcquistoServiceImpl implements AcquistoService {
 		}
 	}
 
+	@Override
+	public Acquisto caricaSingoloElementoEager(long id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

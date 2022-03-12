@@ -94,4 +94,6 @@ public class AcquistoDAOImpl implements AcquistoDAO {
 
 		return typedQuery.getResultList();
 	}
+
+	
 }

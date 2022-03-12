@@ -20,4 +20,6 @@ public interface AcquistoService {
 	public void setAcquistoDAO(AcquistoDAO acquistoDAO);
 
 	public List<Acquisto> findByExample(Acquisto example) throws Exception;
+
+	public Acquisto caricaSingoloElementoEager(long id) throws Exception;
 }

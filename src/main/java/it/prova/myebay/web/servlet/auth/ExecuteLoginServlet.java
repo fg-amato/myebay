@@ -30,7 +30,7 @@ public class ExecuteLoginServlet extends HttpServlet {
 
 		if (StringUtils.isEmpty(loginInput) || StringUtils.isEmpty(passwordInput)) {
 			request.setAttribute("errorMessage", "E' necessario riempire tutti i campi.");
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+			request.getRequestDispatcher("public/login.jsp").forward(request, response);
 			return;
 		}
 
@@ -38,17 +38,16 @@ public class ExecuteLoginServlet extends HttpServlet {
 
 		try {
 			Utente utenteInstance = MyServiceFactory.getUtenteServiceInstance().accedi(loginInput, passwordInput);
-			System.out.println(utenteInstance == null);
 			if (utenteInstance == null) {
 				request.setAttribute("errorMessage", "Utente non trovato.");
-				destinazione = "login.jsp";
+				destinazione = "public/login.jsp";
 			} else {
 				request.getSession().setAttribute("userInfo", utenteInstance);
 				destinazione = "utente/home.jsp";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			destinazione = "login.jsp";
+			destinazione = "public/login.jsp";
 			request.setAttribute("errorMessage", "Attenzione! Si è verificato un errore.");
 		}
 
