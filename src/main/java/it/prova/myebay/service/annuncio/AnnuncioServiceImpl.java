@@ -9,19 +9,27 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import it.prova.myebay.dao.annuncio.AnnuncioDAO;
 import it.prova.myebay.dao.categoria.CategoriaDAO;
+import it.prova.myebay.dao.utente.UtenteDAO;
 import it.prova.myebay.exceptions.InvalidUserException;
 import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.model.Categoria;
+import it.prova.myebay.model.Utente;
 import it.prova.myebay.web.listener.LocalEntityManagerFactoryListener;
 
 public class AnnuncioServiceImpl implements AnnuncioService {
 
 	private AnnuncioDAO annuncioDAO;
 	private CategoriaDAO categoriaDAO;
+	private UtenteDAO utenteDAO;
 
 	@Override
 	public void setCategoriaDAO(CategoriaDAO categoriaDAO) {
 		this.categoriaDAO = categoriaDAO;
+	}
+
+	@Override
+	public void setUtenteDAO(UtenteDAO utenteDAO) {
+		this.utenteDAO = utenteDAO;
 	}
 
 	@Override
@@ -275,5 +283,47 @@ public class AnnuncioServiceImpl implements AnnuncioService {
 		} finally {
 			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
 		}
+	}
+
+	@Override
+	public void inserisciNuovoConCategorie(Annuncio annuncioInstance, String[] categoriaInputInputParam, Long id)
+			throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+
+		try {
+			// questo è come il MyConnection.getConnection()
+			entityManager.getTransaction().begin();
+
+			annuncioDAO.setEntityManager(entityManager);
+			categoriaDAO.setEntityManager(entityManager);
+			utenteDAO.setEntityManager(entityManager);
+
+			Utente utenteInserimento = utenteDAO.findOne(id).get();
+
+			if (utenteInserimento == null) {
+				throw new InvalidUserException("Utente che vuole aggiungere annuncio non valido");
+			}
+			annuncioInstance.setAperto(true);
+			annuncioInstance.setUtenteInserimento(utenteInserimento);
+			if (categoriaInputInputParam != null) {
+				for (String itemId : categoriaInputInputParam) {
+					if (NumberUtils.isCreatable(itemId)) {
+						annuncioInstance.addToCategorie(categoriaDAO.findOne(Long.parseLong(itemId)).get());
+					}
+				}
+			}
+
+			annuncioDAO.insert(annuncioInstance);
+
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
+
 	}
 }

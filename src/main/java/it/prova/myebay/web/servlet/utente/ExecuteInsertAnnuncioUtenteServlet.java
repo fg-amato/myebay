@@ -1,7 +1,6 @@
 package it.prova.myebay.web.servlet.utente;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,40 +13,38 @@ import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.service.MyServiceFactory;
 import it.prova.myebay.utility.UtilityForm;
 
-/**
- * Servlet implementation class ExecuteEditAnnuncioUtenteServlet
- */
-@WebServlet("/utente/ExecuteEditAnnuncioUtenteServlet")
-public class ExecuteEditAnnuncioUtenteServlet extends HttpServlet {
+@WebServlet("/utente/ExecuteInsertAnnuncioUtenteServlet")
+public class ExecuteInsertAnnuncioUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		String testoAnnuncioInputParam = request.getParameter("testoannuncio");
 		String prezzoInputParam = request.getParameter("prezzo");
-		String[] categoriaInputParam = request.getParameterValues("categoriaInput");
-		String idInputParam = request.getParameter("idAnnuncio");
-		
-		
-		if(!NumberUtils.isCreatable(idInputParam)) {
+		String idUtenteInserimentoParam = request.getParameter("idUtente");
+		String[] categoriaInputInputParam = request.getParameterValues("categoriaInput");
+
+		if (!NumberUtils.isCreatable(idUtenteInserimentoParam)) {
 			request.setAttribute("errorMessage", "Attenzione si è verificato un errore.");
 			request.getRequestDispatcher("home.jsp").forward(request, response);
 			return;
 		}
-		
-		Annuncio annuncioInstance = UtilityForm.createAnnuncioFromParamsForEdit(testoAnnuncioInputParam, prezzoInputParam);
+
+		Annuncio annuncioInstance = UtilityForm.createAnnuncioFromParamsForEdit(testoAnnuncioInputParam,
+				prezzoInputParam);
 		try {
 			if (!UtilityForm.validateAnnuncioBean(annuncioInstance)) {
-				request.setAttribute("update_annuncio_attr", annuncioInstance);
+				request.setAttribute("insert_annuncio_attr", annuncioInstance);
 				request.setAttribute("categorie_list_attribute", UtilityForm.buildCheckedCategoriesForPages(
-						MyServiceFactory.getCategoriaServiceInstance().listAll(), categoriaInputParam));
+						MyServiceFactory.getCategoriaServiceInstance().listAll(), categoriaInputInputParam));
 				request.setAttribute("errorMessage", "Attenzione sono presenti errori di validazione");
-				request.getRequestDispatcher("editAnnuncio.jsp").forward(request, response);
+				request.getRequestDispatcher("insertAnnuncio.jsp").forward(request, response);
 				return;
 			}
-			annuncioInstance.setId(Long.parseLong(idInputParam));
-			MyServiceFactory.getAnnuncioServiceInstance().aggiornaCategorieAnnuncio(annuncioInstance, categoriaInputParam);
+			MyServiceFactory.getAnnuncioServiceInstance().inserisciNuovoConCategorie(annuncioInstance,
+					categoriaInputInputParam, Long.parseLong(idUtenteInserimentoParam));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMessage", "Attenzione si è verificato un errore.");
@@ -56,4 +53,5 @@ public class ExecuteEditAnnuncioUtenteServlet extends HttpServlet {
 		}
 		response.sendRedirect("PrepareSearchAnnuncioServlet");
 	}
+
 }
