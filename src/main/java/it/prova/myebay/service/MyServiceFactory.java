@@ -90,6 +90,15 @@ public class MyServiceFactory {
 
 		if (UTENTE_DAO_INSTANCE == null)
 			UTENTE_DAO_INSTANCE = new UtenteDAOImpl();
+		
+		if (ACQUISTO_SERVICE_INSTANCE == null)
+			ACQUISTO_SERVICE_INSTANCE = new AcquistoServiceImpl();
+
+		if (ACQUISTO_DAO_INSTANCE == null)
+			ACQUISTO_DAO_INSTANCE = new AcquistoDAOImpl();
+
+		ANNUNCIO_SERVICE_INSTANCE.setAcquistoDAO(ACQUISTO_DAO_INSTANCE);
+		
 
 		ANNUNCIO_SERVICE_INSTANCE.setUtenteDAO(UTENTE_DAO_INSTANCE);
 

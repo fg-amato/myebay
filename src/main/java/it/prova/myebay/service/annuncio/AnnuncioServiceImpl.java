@@ -1,5 +1,6 @@
 package it.prova.myebay.service.annuncio;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,10 +8,14 @@ import javax.persistence.EntityManager;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
+import it.prova.myebay.dao.acquisto.AcquistoDAO;
 import it.prova.myebay.dao.annuncio.AnnuncioDAO;
 import it.prova.myebay.dao.categoria.CategoriaDAO;
 import it.prova.myebay.dao.utente.UtenteDAO;
+import it.prova.myebay.exceptions.InvalidAnnouncementException;
+import it.prova.myebay.exceptions.InvalidCreditException;
 import it.prova.myebay.exceptions.InvalidUserException;
+import it.prova.myebay.model.Acquisto;
 import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.model.Categoria;
 import it.prova.myebay.model.Utente;
@@ -21,6 +26,12 @@ public class AnnuncioServiceImpl implements AnnuncioService {
 	private AnnuncioDAO annuncioDAO;
 	private CategoriaDAO categoriaDAO;
 	private UtenteDAO utenteDAO;
+	private AcquistoDAO acquistoDAO;
+
+	@Override
+	public void setAcquistoDAO(AcquistoDAO acquistoDAO) {
+		this.acquistoDAO = acquistoDAO;
+	}
 
 	@Override
 	public void setCategoriaDAO(CategoriaDAO categoriaDAO) {
@@ -325,5 +336,68 @@ public class AnnuncioServiceImpl implements AnnuncioService {
 			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
 		}
 
+	}
+
+	@Override
+	public void acquisto(long idUtenteAcquirente, long idAnnuncio) throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+
+		try {
+			// questo è come il MyConnection.getConnection()
+			entityManager.getTransaction().begin();
+
+			annuncioDAO.setEntityManager(entityManager);
+			acquistoDAO.setEntityManager(entityManager);
+			utenteDAO.setEntityManager(entityManager);
+
+			Utente utenteAcquirente = utenteDAO.findOne(idUtenteAcquirente).get();
+
+			if (utenteAcquirente == null) {
+				throw new InvalidUserException("Utente che vuole acquistare annuncio non valido");
+			}
+
+			Annuncio annuncioDaAcquistare = annuncioDAO.findOne(idAnnuncio).get();
+
+			if (!annuncioDaAcquistare.isAperto()) {
+				throw new InvalidAnnouncementException("L'annuncio che cerchi di acquistare è già chiuso");
+			}
+
+			if (utenteAcquirente.getCreditoResiduo() != null && utenteAcquirente.getCreditoResiduo() < annuncioDaAcquistare.getPrezzo()) {
+				throw new InvalidCreditException(
+						"Il suo saldo è inferiore al prezzo dell'annuncio che desidera acquistare");
+			}
+			entityManager.merge(annuncioDaAcquistare);
+			entityManager.merge(utenteAcquirente);
+
+			annuncioDaAcquistare.setAperto(false);
+			Integer creditoResiduo = utenteAcquirente.getCreditoResiduo() - annuncioDaAcquistare.getPrezzo();
+			utenteAcquirente.setCreditoResiduo(creditoResiduo);
+
+			Acquisto acquisto = new Acquisto(annuncioDaAcquistare.getTestoAnnuncio(), annuncioDaAcquistare.getPrezzo(),
+					new Date(), utenteAcquirente);
+
+			acquistoDAO.insert(acquisto);
+
+			entityManager.getTransaction().commit();
+		} catch (InvalidUserException e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}catch (InvalidAnnouncementException e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} catch (InvalidCreditException e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		}catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
 	}
 }

@@ -2,6 +2,7 @@ package it.prova.myebay.service.annuncio;
 
 import java.util.List;
 
+import it.prova.myebay.dao.acquisto.AcquistoDAO;
 import it.prova.myebay.dao.annuncio.AnnuncioDAO;
 import it.prova.myebay.dao.categoria.CategoriaDAO;
 import it.prova.myebay.dao.utente.UtenteDAO;
@@ -24,8 +25,10 @@ public interface AnnuncioService {
 	public void setAnnuncioDAO(AnnuncioDAO annuncioDAO);
 
 	public void setCategoriaDAO(CategoriaDAO categoriaDAO);
-	
+
 	public void setUtenteDAO(UtenteDAO utenteDAO);
+
+	public void setAcquistoDAO(AcquistoDAO acquistoDAO);
 
 	public Annuncio caricaSingoloElementoEager(Long id) throws Exception;
 
@@ -33,7 +36,11 @@ public interface AnnuncioService {
 
 	List<Annuncio> findByExampleConUtente(Annuncio example) throws Exception;
 
-	public void aggiornaCategorieAnnuncio(Annuncio annuncioInstance, String[] categoriaInputInputParam)throws Exception;
+	public void aggiornaCategorieAnnuncio(Annuncio annuncioInstance, String[] categoriaInputInputParam)
+			throws Exception;
 
-	public void inserisciNuovoConCategorie(Annuncio annuncioInstance, String[] categoriaInputInputParam, Long idUtente) throws Exception;
+	public void inserisciNuovoConCategorie(Annuncio annuncioInstance, String[] categoriaInputInputParam, Long idUtente)
+			throws Exception;
+
+	public void acquisto(long idUtenteAcquirente, long idAnnuncio) throws Exception;
 }

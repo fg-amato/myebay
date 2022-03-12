@@ -97,7 +97,8 @@
 					    </div>
 					    
 					    <div class='card-footer'>
-					   	 	<a href="${pageContext.request.contextPath }/TRANSAZIONE" class='btn btn-outline-primary' style='width:100px'>
+					    
+					   	 	<a href="${pageContext.request.contextPath }/utente/annuncio/ExecuteAcquistoUtenteServlet?idAnnuncio=${show_annuncio_attr.id}&idUtente=${ userInfo.id}" class='btn btn-outline-primary' style='width:100px'>
 					            <i class='fa fa-chevron-left'></i> Compra
 					        </a>
 					        <a href="${pageContext.request.contextPath }/ExecuteListAnnuncioServlet" class='btn btn-outline-secondary' style='width:100px'>
