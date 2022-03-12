@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import it.prova.myebay.dao.acquisto.AcquistoDAO;
+import it.prova.myebay.exceptions.InvalidUserException;
 import it.prova.myebay.model.Acquisto;
 import it.prova.myebay.web.listener.LocalEntityManagerFactoryListener;
 
@@ -112,6 +113,29 @@ public class AcquistoServiceImpl implements AcquistoService {
 	public void rimuovi(Acquisto acquistoInstance) throws Exception {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public List<Acquisto> findByExample(Acquisto example) throws Exception {
+		if (example.getUtenteAcquirente() == null || example.getUtenteAcquirente().getId() == null) {
+			throw new InvalidUserException("L'utente inserito non è stato trovato");
+		}
+		// questo è come una connection
+		EntityManager entityManager = LocalEntityManagerFactoryListener.getEntityManager();
+
+		try {
+			// uso l'injection per il dao
+			acquistoDAO.setEntityManager(entityManager);
+
+			// eseguo quello che realmente devo fare
+			return acquistoDAO.findByExample(example);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			LocalEntityManagerFactoryListener.closeEntityManager(entityManager);
+		}
 	}
 
 }

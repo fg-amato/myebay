@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import it.prova.myebay.model.Acquisto;
 import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.model.Categoria;
 import it.prova.myebay.model.Ruolo;
@@ -198,6 +199,19 @@ public class UtilityForm {
 		}
 		return true;
 	}
+
+	public static Acquisto createAcquistoFromParamsForSearch(String descrizioneParam, String prezzoParam,
+			String dataParam) {
+		Acquisto result = new Acquisto();
+		result.setDescrizione(StringUtils.isNotBlank(descrizioneParam) ? descrizioneParam : null);
+
+		result.setPrezzo(NumberUtils.isCreatable(prezzoParam) ? Integer.parseInt(prezzoParam) : null);
+
+		result.setDateBuy(parseDateFromString(dataParam));
+		
+		return result;
+	}
+
 //	public static boolean validateRegistaBean(Regista registaToBeValidated) {
 //		// prima controlliamo che non siano vuoti i parametri
 //		if (StringUtils.isBlank(registaToBeValidated.getNome())

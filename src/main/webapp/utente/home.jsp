@@ -71,7 +71,7 @@
 			        </div>
 			        <h2>Visualizzazione Acquisti</h2>
 			        <p>Ricerca tra i tuoi acquisti.</p>
-			        <a href="PrepareSearchRegistaServlet" class="icon-link">
+			        <a href="${pageContext.request.contextPath }/utente/acquisto/PrepareSearchAcquistiUtenteServlet" class="icon-link">
 			          Vai alla funzionalità
 			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
 			        </a>
