@@ -13,7 +13,7 @@ import it.prova.myebay.utility.UtilityForm;
 /**
  * Servlet implementation class PrepareInsertAnnuncioUtenteServlet
  */
-@WebServlet("/utente/PrepareInsertAnnuncioUtenteServlet")
+@WebServlet("/utente/annuncio/PrepareInsertAnnuncioUtenteServlet")
 public class PrepareInsertAnnuncioUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

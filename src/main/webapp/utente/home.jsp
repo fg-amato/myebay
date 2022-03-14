@@ -82,7 +82,7 @@
 			        </div>
 			        <h2>Gestione Annunci</h2>
 			        <p> Visualizza e gestisci tutti i tuoi annunci ancora aperti.</p>
-			        <a href="${pageContext.request.contextPath }/utente/PrepareSearchAnnuncioServlet" class="icon-link">
+			        <a href="${pageContext.request.contextPath }/utente/annuncio/PrepareSearchAnnuncioServlet" class="icon-link">
 			          Vai alla funzionalità
 			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
 			        </a>

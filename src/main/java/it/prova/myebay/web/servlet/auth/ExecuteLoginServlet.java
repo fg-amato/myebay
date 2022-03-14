@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import it.prova.myebay.model.Utente;
 import it.prova.myebay.service.MyServiceFactory;
 
-@WebServlet("/ExecuteLoginServlet")
+@WebServlet("/public/ExecuteLoginServlet")
 public class ExecuteLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class ExecuteLoginServlet extends HttpServlet {
 
 		if (StringUtils.isEmpty(loginInput) || StringUtils.isEmpty(passwordInput)) {
 			request.setAttribute("errorMessage", "E' necessario riempire tutti i campi.");
-			request.getRequestDispatcher("public/login.jsp").forward(request, response);
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 			return;
 		}
 
@@ -40,14 +40,14 @@ public class ExecuteLoginServlet extends HttpServlet {
 			Utente utenteInstance = MyServiceFactory.getUtenteServiceInstance().accedi(loginInput, passwordInput);
 			if (utenteInstance == null) {
 				request.setAttribute("errorMessage", "Utente non trovato.");
-				destinazione = "public/login.jsp";
+				destinazione = "login.jsp";
 			} else {
 				request.getSession().setAttribute("userInfo", utenteInstance);
-				destinazione = "utente/home.jsp";
+				destinazione = "../utente/home.jsp";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			destinazione = "public/login.jsp";
+			destinazione = "login.jsp";
 			request.setAttribute("errorMessage", "Attenzione! Si è verificato un errore.");
 		}
 

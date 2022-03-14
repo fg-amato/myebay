@@ -14,7 +14,7 @@ import it.prova.myebay.exceptions.ElementNotFoundException;
 import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.service.MyServiceFactory;
 
-@WebServlet("/utente/ExecuteDeleteAnnuncioUtenteServlet")
+@WebServlet("/utente/annuncioExecuteDeleteAnnuncioUtenteServlet")
 public class ExecuteDeleteAnnuncioUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

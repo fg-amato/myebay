@@ -40,7 +40,7 @@
       </div>
       <div class="col-md-3 text-end">
       	<c:if test = "${userInfo == null }">
-        	<p class="navbar-text"> <a href="${pageContext.request.contextPath}/PrepareLoginServlet">Login</a></p>
+        	<p class="navbar-text"> <a href="${pageContext.request.contextPath}/public/PrepareLoginServlet">Login</a></p>
       	</c:if>
       </div>
       

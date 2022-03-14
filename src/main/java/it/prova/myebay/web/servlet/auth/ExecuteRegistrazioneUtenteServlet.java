@@ -13,7 +13,7 @@ import it.prova.myebay.model.Utente;
 import it.prova.myebay.service.MyServiceFactory;
 import it.prova.myebay.utility.UtilityForm;
 
-@WebServlet("/ExecuteRegistrazioneUtenteServlet")
+@WebServlet("/public/ExecuteRegistrazioneUtenteServlet")
 public class ExecuteRegistrazioneUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class ExecuteRegistrazioneUtenteServlet extends HttpServlet {
 		if (!UtilityForm.validateUtenteBean(utenteInstance)) {
 			request.setAttribute("insert_utente_attr", utenteInstance);
 			request.setAttribute("errorMessage", "Attenzione sono presenti errori di validazione");
-			request.getRequestDispatcher("public/registrazione.jsp").forward(request, response);
+			request.getRequestDispatcher("registrazione.jsp").forward(request, response);
 			return;
 		}
 

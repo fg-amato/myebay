@@ -14,7 +14,7 @@ import it.prova.myebay.service.MyServiceFactory;
 /**
  * Servlet implementation class ExecuteListAnnuncioUtenteServlet
  */
-@WebServlet("/utente/ExecuteListAnnuncioUtenteServlet")
+@WebServlet("/utente/annuncio/ExecuteListAnnuncioUtenteServlet")
 public class ExecuteListAnnuncioUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import it.prova.myebay.service.MyServiceFactory;
 
 
-@WebServlet("/utente/PrepareSearchAnnuncioServlet")
+@WebServlet("/utente/annuncio/PrepareSearchAnnuncioServlet")
 public class PrepareSearchAnnuncioServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

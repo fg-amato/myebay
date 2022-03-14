@@ -14,10 +14,8 @@ import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.service.MyServiceFactory;
 import it.prova.myebay.utility.UtilityForm;
 
-/**
- * Servlet implementation class ExecuteEditAnnuncioUtenteServlet
- */
-@WebServlet("/utente/ExecuteEditAnnuncioUtenteServlet")
+
+@WebServlet("/utente/annuncio/ExecuteEditAnnuncioUtenteServlet")
 public class ExecuteEditAnnuncioUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

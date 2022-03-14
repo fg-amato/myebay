@@ -13,7 +13,7 @@ import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.service.MyServiceFactory;
 
 
-@WebServlet("/utente/PrepareDeleteAnnuncioUtenteServlet")
+@WebServlet("/utente/annuncio/PrepareDeleteAnnuncioUtenteServlet")
 public class PrepareDeleteAnnuncioUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
